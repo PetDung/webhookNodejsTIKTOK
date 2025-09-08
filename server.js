@@ -21,8 +21,8 @@ fastify.post('/webhook/order', async (request, reply) => {
     const event = JSONbig.parse(request.rawBody);
     if (event) {
 
-        const shopId = event.shop_id.toString;
-        const orderId = event.data.order_id.toString;
+        const shopId = event.shop_id.toString();
+        const orderId = event.data.order_id.toString();
 
         const message = {
             shopId: shopId,
@@ -54,14 +54,14 @@ fastify.post('/webhook/product/change', async (request, reply) => {
 
         const shopId = event.shop_id.toString();
         const productId = event.data.product_id.toString();
-        const status = event.data.status;
+        const status = event.data.status.toString();
         const updateTime = event.data.update_time.toString();
 
 
         const message = {
             shopId: shopId.toString(),
             productId: productId.toString(),
-            event: status,
+            event: status.toString(),
             updateTime: updateTime.toString(),
         }
         console.log("Parsed message:", message);
