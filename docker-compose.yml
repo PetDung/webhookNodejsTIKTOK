@@ -1,0 +1,5 @@
+services:
+  webhook-service:
+    build: .
+    ports:
+      - "3005:3005"
