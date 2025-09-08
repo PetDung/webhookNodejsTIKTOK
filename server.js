@@ -73,7 +73,7 @@ fastify.post('/webhook/product/change', async (request, reply) => {
 
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 fastify.listen({ port: PORT, host: '0.0.0.0' }, (err, address) => {
   if (err) {
     fastify.log.error(err);
