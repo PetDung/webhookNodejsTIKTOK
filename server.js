@@ -81,6 +81,40 @@ fastify.post('/webhook/product/change', async (request, reply) => {
     }
 });
 
+fastify.post('/webhook/refund/change', async (request, reply) => {
+
+    console.log("Received product change webhook:", request.rawBody);
+    const event = JSONbig.parse(request.rawBody);
+
+    if (event) {
+
+        const shopId = event.shop_id.toString();
+        const orderId = event.data.order_id.toString();
+        const refundId = event.data.return_id.toString();
+
+        const message = {
+            shopId: shopId.toString(),
+            refundId: refundId.toString(),
+            orderId: orderId.toString(),
+        }
+
+        console.log("Parsed message:", message);
+        try {
+            await producer.send({
+                topic: 'refund-sync',
+                messages: [{
+                    key: message.shopId.toString(),
+                    value: JSON.stringify(message)
+                }],
+            });
+            reply.code(200).send({ message: 'Event sent to Kafka' });
+        } catch (err) {
+            request.log.error(err);
+            reply.code(500).send({ error: 'Failed to send event' });
+        }
+    }
+});
+
 
 // Start server
 const PORT = process.env.PORT || 3005;
