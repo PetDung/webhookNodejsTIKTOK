@@ -2,8 +2,6 @@
 import Fastify from 'fastify';
 import { Kafka } from 'kafkajs';
 import JSONbig from 'json-bigint';
-import {sendNotication } from './notication.js'; // Import the functions from notication.js
-
 
 const fastify = Fastify({ logger: true });
 
@@ -57,16 +55,7 @@ fastify.post('/webhook/product/change', async (request, reply) => {
         const productId = event.data.product_id.toString();
         const status = event.data.status.toString();
         const updateTime = event.data.update_time.toString();
-        const reason = event.data.suspended_reason ? event.data.suspended_reason.toString() : "";
 
-        if (status === "PRODUCT_AUDIT_FAILURE") {
-            const messageNoti = {
-                shopId: shopId,
-                suspended_reason : reason,
-                productId : productId
-            }
-            sendNotication(messageNoti, "PRODUCT");
-        }
 
         const message = {
             shopId: shopId.toString(),
