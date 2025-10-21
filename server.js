@@ -11,7 +11,7 @@ fastify.addContentTypeParser('application/json', { parseAs: 'string' }, function
 });
 
 // Kafka setup
-const kafka = new Kafka({ brokers: ['14.225.192.60:9094'] });
+const kafka = new Kafka({ brokers: ['161.97.172.157:9094'] });
 const producer = kafka.producer();
 await producer.connect();
 
